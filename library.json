@@ -1,0 +1,30 @@
+{
+  "name": "bread-slice-core",
+  "version": "0.0.0",
+  "description": "Shared firmware mechanisms for BREADS Slices: status LED, e-stop sampling, watchdog latch, strict parsing",
+  "keywords": [
+    "bread",
+    "breads",
+    "slice",
+    "estop",
+    "ws2812"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/feastorg/bread-slice-core.git"
+  },
+  "license": "MPL-2.0",
+  "frameworks": "arduino",
+  "platforms": [
+    "atmelavr",
+    "atmelmegaavr"
+  ],
+  "export": {
+    "include": [
+      "src",
+      "README.md",
+      "CHANGELOG.md",
+      "LICENSE"
+    ]
+  }
+}
