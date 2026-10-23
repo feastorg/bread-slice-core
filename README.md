@@ -3,7 +3,7 @@
 Shared firmware mechanisms for BREADS Slices: the code every Slice runs the
 same way, written once and host-tested.
 
-Nothing is released yet. Progress is tracked in
+Moving the Slices onto it is tracked in
 [feastorg/.github#4](https://github.com/feastorg/.github/issues/4).
 
 ## Use
