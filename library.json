@@ -1,6 +1,6 @@
 {
   "name": "bread-slice-core",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Shared firmware mechanisms for BREADS Slices: status LED, e-stop sampling, watchdog latch, strict parsing",
   "keywords": [
     "bread",

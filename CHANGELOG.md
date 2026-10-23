@@ -5,6 +5,10 @@ Format: [Keep a Changelog](https://keepachangelog.com/). Versions follow
 
 ## [Unreleased]
 
+## [0.1.0] - 2026-10-23
+
+Host-tested only: no Slice uses it yet, and it has not run on a board.
+
 ### Added
 - Repository skeleton: README, scope rules (linked to the BREADS spec), MPL-2.0
   licence, and the PlatformIO manifest.
