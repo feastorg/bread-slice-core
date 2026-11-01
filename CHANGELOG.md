@@ -5,6 +5,11 @@ Format: [Keep a Changelog](https://keepachangelog.com/). Versions follow
 
 ## [Unreleased]
 
+## [0.2.0] - 2026-10-31
+
+Host-tested only: the amber has not been seen on a board, and no Slice uses
+either addition yet.
+
 ### Added
 - `bsc::StatusLed`: a `Hold` state, amber (red 50, green 16), for a firmware
   hold: a command-watchdog trip or a latched fault. `StatusLed::stateFor()`
