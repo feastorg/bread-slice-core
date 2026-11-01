@@ -9,13 +9,18 @@ namespace bsc
 {
 
 EStop::EStop(uint8_t pin, bool activeLow, uint16_t releaseDebounceMs)
-    : pin_(pin), activeLow_(activeLow), debounceMs_(releaseDebounceMs)
+    : pin_(pin), activeLow_(activeLow), pullUp_(activeLow), debounceMs_(releaseDebounceMs)
+{
+}
+
+EStop::EStop(uint8_t pin, Input input, uint16_t releaseDebounceMs)
+    : pin_(pin), activeLow_(true), pullUp_(input == PullUp), debounceMs_(releaseDebounceMs)
 {
 }
 
 void EStop::begin()
 {
-    pinMode(pin_, activeLow_ ? INPUT_PULLUP : INPUT);
+    pinMode(pin_, pullUp_ ? INPUT_PULLUP : INPUT);
 }
 
 EStop::Event EStop::poll(unsigned long nowMs)

@@ -1,4 +1,5 @@
-// Status LED: each state's colour in GRB order, written only on a change.
+// Status LED: each state's colour in GRB order, written only on a change, and
+// the main loop's choice of state.
 #include <bsc_status_led.h>
 
 #include "check.h"
@@ -31,6 +32,18 @@ int main()
 
     led.set(StatusLed::Running);
     CHECK(bsc_host_led_writes == 4 && frame(25, 0, 0));
+
+    // Amber: red 50, green 16, no blue.
+    led.set(StatusLed::Hold);
+    CHECK(bsc_host_led_writes == 5 && frame(16, 50, 0));
+    led.set(StatusLed::Hold);
+    CHECK(bsc_host_led_writes == 5);
+
+    // Red wins over amber; amber only while held without the e-stop.
+    CHECK(StatusLed::stateFor(false, false) == StatusLed::Running);
+    CHECK(StatusLed::stateFor(false, true) == StatusLed::Hold);
+    CHECK(StatusLed::stateFor(true, false) == StatusLed::EStop);
+    CHECK(StatusLed::stateFor(true, true) == StatusLed::EStop);
 
     CHECK_DONE();
 }

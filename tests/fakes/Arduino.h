@@ -9,9 +9,11 @@
 #define INPUT 0
 #define INPUT_PULLUP 2
 
-// The level digitalRead() returns for every pin, and the last pinMode().
+// The level digitalRead() returns for every pin, the last pinMode(), and how
+// many pinMode() calls asked for the pull-up.
 extern int fake_level;
 extern int fake_pin_mode;
+extern int fake_pullup_calls;
 
 // millis() returns fake_now, then adds fake_step, so a loop that polls the
 // clock advances it.
@@ -25,6 +27,11 @@ inline unsigned long millis()
     return t;
 }
 inline int digitalRead(uint8_t) { return fake_level; }
-inline void pinMode(uint8_t, uint8_t mode) { fake_pin_mode = mode; }
+inline void pinMode(uint8_t, uint8_t mode)
+{
+    fake_pin_mode = mode;
+    if (mode == INPUT_PULLUP)
+        fake_pullup_calls++;
+}
 
 #endif

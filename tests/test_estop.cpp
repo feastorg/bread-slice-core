@@ -27,6 +27,28 @@ int main()
         CHECK(fake_pin_mode == INPUT);
     }
 
+    // The input mode: PullUp is the default's pull-up; NoPullUp never
+    // enables it, and still asserts on LOW.
+    {
+        EStop p(2, EStop::PullUp);
+        fake_pullup_calls = 0;
+        p.begin();
+        CHECK(fake_pin_mode == INPUT_PULLUP && fake_pullup_calls == 1);
+        EStop n(2, EStop::NoPullUp, 5);
+        fake_pin_mode = -1;
+        fake_pullup_calls = 0;
+        n.begin();
+        CHECK(fake_pin_mode == INPUT && fake_pullup_calls == 0);
+        fake_level = HIGH;
+        CHECK(n.poll(0) == EStop::None);
+        fake_level = LOW;
+        CHECK(n.poll(1) == EStop::Pressed);
+        fake_level = HIGH;
+        n.poll(2);
+        CHECK(n.poll(7) == EStop::Released);
+        fake_level = HIGH;
+    }
+
     // One active sample asserts and counts.
     {
         EStop e(2);
