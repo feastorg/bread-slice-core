@@ -21,6 +21,13 @@ the calls in the order a Slice makes them.
 `EStop(pin, activeLow = true, releaseDebounceMs = 25)`. `begin()` sets the
 pin's mode: the internal pull-up when `activeLow`.
 
+`EStop(pin, EStop::NoPullUp, releaseDebounceMs = 25)` asserts on LOW with no
+internal pull-up, for a Loaf whose pull-down holds an open line LOW, as the
+[e-stop polarity rule](https://github.com/feastorg/bread-infra/blob/main/spec/slice/firmware.md#e-stop-polarity)
+asks: pull-ups on several Slices in parallel would hold an open line HIGH.
+`EStop::PullUp` is the same as the default. Keep the default until the Loaf
+has the pull-down; without it, a line with no pull-up floats.
+
 `poll(millis())` once per main-loop pass returns `None`, `Pressed` or
 `Released`. One active sample is a press. A release needs the line inactive
 for the debounce time without a break, and always at least two samples.

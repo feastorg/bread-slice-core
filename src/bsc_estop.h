@@ -26,9 +26,20 @@ public:
         Released,
     };
 
+    // How an active-low line is read. Both assert on LOW.
+    enum Input : uint8_t
+    {
+        PullUp,   // the internal pull-up, which today's Loafs need
+        NoPullUp, // no pull-up: the Loaf's pull-down holds an open line LOW,
+                  // and pull-ups on several Slices would outvote it
+    };
+
     // activeLow: the input uses the internal pull-up and LOW is a stop, as on
     // the BREADS Slices today.
     explicit EStop(uint8_t pin, bool activeLow = true, uint16_t releaseDebounceMs = 25);
+
+    // Active low, with the input read as given.
+    EStop(uint8_t pin, Input input, uint16_t releaseDebounceMs = 25);
 
     // Configures the pin. Call before the first poll().
     void begin();
@@ -46,6 +57,7 @@ public:
 private:
     uint8_t pin_;
     bool activeLow_;
+    bool pullUp_;
     uint16_t debounceMs_;
     bool releasePending_ = false;
     uint32_t releaseStartMs_ = 0;

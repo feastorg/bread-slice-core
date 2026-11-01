@@ -10,6 +10,10 @@ Format: [Keep a Changelog](https://keepachangelog.com/). Versions follow
   hold: a command-watchdog trip or a latched fault. `StatusLed::stateFor()`
   picks the main loop's state, with red winning over amber. The amber value is
   worked from the WS2812B datasheet and has not been seen on a board.
+- `bsc::EStop`: an input mode, `EStop(pin, EStop::NoPullUp)`, that asserts on
+  LOW without the internal pull-up, for a Loaf that pulls an open line LOW.
+  The existing constructor, with the pull-up, is unchanged and stays the
+  default: today's Loafs need it.
 
 ## [0.1.0] - 2026-10-23
 
