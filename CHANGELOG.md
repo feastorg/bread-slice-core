@@ -5,6 +5,12 @@ Format: [Keep a Changelog](https://keepachangelog.com/). Versions follow
 
 ## [Unreleased]
 
+### Added
+- `bsc::StatusLed`: a `Hold` state, amber (red 50, green 16), for a firmware
+  hold: a command-watchdog trip or a latched fault. `StatusLed::stateFor()`
+  picks the main loop's state, with red winning over amber. The amber value is
+  worked from the WS2812B datasheet and has not been seen on a board.
+
 ## [0.1.0] - 2026-10-23
 
 Host-tested only: no Slice uses it yet, and it has not run on a board.

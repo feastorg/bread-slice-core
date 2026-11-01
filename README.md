@@ -49,9 +49,18 @@ Arming, disarming and re-arming leave a trip set. `arm()`, `stamp()` and
 ### Status LED (`bsc::StatusLed`)
 
 One WS2812B on D5, on an ATmega328P or ATmega4809 at 16 MHz; anything else
-fails to build. `begin()`, then `set(Boot)` (blue), `set(Running)` (green) or
-`set(EStop)` (red). A frame goes out only when the state changes; interrupts
-are off for about 32 us while it does.
+fails to build. `begin()`, then `set(Boot)` (blue), `set(Running)` (green),
+`set(EStop)` (red) or `set(Hold)` (amber). A frame goes out only when the state
+changes; interrupts are off for about 32 us while it does.
+
+From the main loop, `set(StatusLed::stateFor(estop.asserted(), hold))` picks
+the state, where `hold` is a command-watchdog trip or a latched fault: red
+while the e-stop is held, amber while held without it, green otherwise. Red
+wins over amber.
+
+Amber is red 50, green 16. The WS2812B datasheet's typical intensities put
+its green at about twice its red, so about 3:1 in drive mixes near 590 nm. That
+ratio is worked from the datasheet, not yet seen on a board.
 
 ### Strict parsing
 

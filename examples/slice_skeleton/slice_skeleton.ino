@@ -34,7 +34,8 @@ void loop()
 {
     wdt_reset();
     onEStop(estop.poll(millis()));
-    led.set(estop.asserted() ? bsc::StatusLed::EStop : bsc::StatusLed::Running);
+    // A Slice with latched faults ORs them into the hold.
+    led.set(bsc::StatusLed::stateFor(estop.asserted(), watchdog.tripped()));
     if (watchdog.check(millis()))
         driveOutputsSafe();
 

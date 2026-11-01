@@ -52,7 +52,18 @@ public:
         Boot,    // blue, through the boot wait
         Running, // green
         EStop,   // red, while the e-stop is held
+        Hold,    // amber, a firmware hold: a command-watchdog trip or a
+                 // latched fault
     };
+
+    // The main loop's state: red while the e-stop is held, amber while the
+    // Slice holds on its own, green otherwise. Red wins over amber.
+    static State stateFor(bool estopHeld, bool hold)
+    {
+        if (estopHeld)
+            return EStop;
+        return hold ? Hold : Running;
+    }
 
     // Drives D5 low as an output.
     void begin()
@@ -79,6 +90,12 @@ public:
             break;
         case EStop:
             show(50, 0, 0);
+            break;
+        case Hold:
+            // The WS2812B's green die is about twice as bright as its red
+            // (datasheet typicals), so about 3:1 red to green in drive mixes
+            // near 590 nm. Worked from the datasheet, not seen on a board.
+            show(50, 16, 0);
             break;
         }
     }
